@@ -8,6 +8,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(CORS());
 
+
+app.get("/", (req, res, next) => {
+    res.send("Server for https://kaquino1.github.io/clinic-website")
+});
+
+
 // INSURANCES PAGE ROUTE HANDLERS
 const getAllInsurances = "SELECT * FROM insurances";
 const insertInsurance = "INSERT INTO insurances (`company`, `planLevel`) VALUES (?, ?)";
