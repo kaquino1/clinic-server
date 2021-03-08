@@ -2,11 +2,11 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
     connectionLimit: 10,
     host: 'us-cdbr-east-03.cleardb.com',
-    user: 'b1eaf14eb820d8',
-    password: '60f0e49c',
-    database: 'heroku_403000bcc933982'
+    user: 'bc31074bb96012',
+    password: '03b93899',
+    database: 'heroku_ff243c72c79a2c1'
 });
 
 module.exports.pool = pool;
 
-// mysql://b1eaf14eb820d8:60f0e49c@us-cdbr-east-03.cleardb.com/heroku_403000bcc933982?reconnect=true
+// mysql://bc31074bb96012:03b93899@us-cdbr-east-03.cleardb.com/heroku_ff243c72c79a2c1?reconnect=true
