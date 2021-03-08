@@ -715,5 +715,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(app.get("port"), function () {
-    console.log(`Listening on Port {app.get('port')}`);
+    console.log(`Listening on Port ${app.get('port')}`);
 });
