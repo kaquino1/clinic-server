@@ -11,7 +11,7 @@ app.use(CORS());
 
 app.get("/", (req, res, next) => {
     res.setHeader('Content-type','text/html');
-    res.send("Server for <a hef='https://kaquino1.github.io/clinic-website'>https://kaquino1.github.io/clinic-website</a>");
+    res.send("<p>Server for <a hef='https://kaquino1.github.io/clinic-website'>https://kaquino1.github.io/clinic-website</a></p>");
 
 });
 
