@@ -715,5 +715,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(app.get("port"), function () {
-    console.log(`Express started on http://${process.env.HOSTNAME}:${app.get('port')}; Ctrl-C to terminate.`);
+    console.log(`Listening on Port {app.get('port')}`);
 });
