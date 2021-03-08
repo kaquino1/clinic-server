@@ -10,7 +10,8 @@ app.use(CORS());
 
 
 app.get("/", (req, res, next) => {
-    res.send("Server for https://kaquino1.github.io/clinic-website")
+    res.send("Server for <a hef='https://kaquino1.github.io/clinic-website'>https://kaquino1.github.io/clinic-website</a>")
+
 });
 
 
