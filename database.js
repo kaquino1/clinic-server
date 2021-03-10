@@ -616,7 +616,7 @@ app.post("/check_for_prescription", (req, res, next) => {
 // Insert a new prescription
 app.post("/add_prescription", (req, res, next) => {
     var { employeeID, patientRecordNumber, medID, quantityOfTablets } = req.body;
-    mysql.pool.query(insertPrescription, [employeeID, patientRecordNumber, medID, quantityOfTablets], (err, result) => {
+    mysql.pool.query(insertPrescription, [employeeID, medID, patientRecordNumber, quantityOfTablets], (err, result) => {
         if (err) {
             next(err);
             return;
