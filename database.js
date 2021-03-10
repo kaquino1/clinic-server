@@ -126,7 +126,7 @@ app.post("/insurance_search", (req, res, next) => {
 const getAllMedications = "SELECT * FROM medications";
 const insertMedications = "INSERT INTO medications (`medName`, `quantityAvailable`) VALUES (?, ?)";
 const deleteMedications = "DELETE FROM medications WHERE medID=?";
-const updateMedications = "UPDATE medications SET medName=?, quantityAvailable=? WHERE medID=?";
+const restockMedications = "UPDATE medications SET medName=?, quantityAvailable=? WHERE medID=?";
 const checkMedications = "SELECT * FROM medications WHERE medName=?";
 
 const getMedicationData = (res) => {
@@ -181,7 +181,7 @@ app.delete("/medications", (req, res, next) => {
 
 app.put("/medications", (req, res, next) => {
     var { medID, medName, quantityAvailable } = req.body;
-    mysql.pool.query(updateMedications, [medName, quantityAvailable, medID], (err, result) => {
+    mysql.pool.query(restockMedications, [medName, quantityAvailable, medID], (err, result) => {
         if (err) {
             next(err);
             return;
