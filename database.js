@@ -228,7 +228,7 @@ app.post("/medication_search", (req, res, next) => {
 });
 
 // PATIENTS PAGE ROUTE HANDLERS
-const getAllPatients = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, patients.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON insurances.insuranceCode = patients.insuranceCode ORDER BY patients.patientRecordNumber ASC";
+const getAllPatients = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, patients.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON insurances.insuranceCode = patients.insuranceCode";
 const insertPatients = "INSERT INTO patients (`firstName`, `lastName`, `dateOfBirth`, `gender`, `diagnosis`, `insuranceCode`) VALUES (?, ?, ?, ?, ?, (SELECT insuranceCode from insurances WHERE insurances.company = ? AND insurances.planLevel = ?))";
 const updatePatients = "UPDATE patients SET firstName=?, lastName=?, dateOfBirth=?, gender=?, diagnosis=?, insuranceCode=(SELECT insurances.insuranceCode FROM insurances WHERE insurances.company=? AND insurances.planLevel=?) WHERE patientRecordNumber=?";
 const deletePatients = "DELETE FROM patients WHERE patientRecordNumber=?";
@@ -571,6 +571,8 @@ const insertPrescription = `INSERT INTO prescriptions(\`employeeID\`, \`medID\`,
                             VALUES (?, ?, ?, ?)`;
 const updateMedicationsQuantity = `UPDATE medications SET quantityAvailable = quantityAvailable - ? WHERE medID = ?`
 const checkIfPrescriptionExists = `SELECT * FROM prescriptions WHERE employeeID = ? AND patientRecordNumber = ? AND medID = ?`
+const getMedicationQuantityAvailable = `SELECT quantityAvailable FROM medications WHERE medID = ?`
+
 
 
 
@@ -590,6 +592,20 @@ const getPrescriptionData = (res) => {
 app.get('/show_all_prescriptions', (req, res, next) => {
     var context = {};
     mysql.pool.query(getAllPrescriptions, (err, rows, fields) => {
+        if (err) {
+            next(err);
+            return;
+        }
+        context.results = rows;
+        res.send(context);
+    });
+});
+
+// Check if a prescription exists before inserting route handler
+app.post("/get_medication_quantity_available", (req, res, next) => {
+    var context = {};
+    var { employeeID, patientRecordNumber, medID } = req.body;
+    mysql.pool.query(getMedicationQuantityAvailable, [medID], (err, rows, result) => {
         if (err) {
             next(err);
             return;
@@ -722,5 +738,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(app.get("port"), function () {
-    console.log(`Listening on Port ${app.get('port')}`);
+    console.log(`Express started on http://${process.env.HOSTNAME}:${app.get('port')}; Ctrl-C to terminate.`);
 });
