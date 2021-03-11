@@ -228,7 +228,7 @@ app.post("/medication_search", (req, res, next) => {
 });
 
 // PATIENTS PAGE ROUTE HANDLERS
-const getAllPatients = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, patients.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON insurances.insuranceCode = patients.insuranceCode";
+const getAllPatients = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, patients.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON insurances.insuranceCode = patients.insuranceCode ORDER BY patients.patientRecordNumber ASC";
 const insertPatients = "INSERT INTO patients (`firstName`, `lastName`, `dateOfBirth`, `gender`, `diagnosis`, `insuranceCode`) VALUES (?, ?, ?, ?, ?, (SELECT insuranceCode from insurances WHERE insurances.company = ? AND insurances.planLevel = ?))";
 const updatePatients = "UPDATE patients SET firstName=?, lastName=?, dateOfBirth=?, gender=?, diagnosis=?, insuranceCode=(SELECT insurances.insuranceCode FROM insurances WHERE insurances.company=? AND insurances.planLevel=?) WHERE patientRecordNumber=?";
 const deletePatients = "DELETE FROM patients WHERE patientRecordNumber=?";
