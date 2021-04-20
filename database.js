@@ -22,7 +22,7 @@ const deleteInsurance = "DELETE FROM insurances WHERE insuranceCode=?";
 const checkInsurance = "SELECT * FROM insurances WHERE company=? AND planLevel=?";
 
 const getInsuranceData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllInsurances, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -38,7 +38,7 @@ app.get("/insurances", (req, res, next) => {
 });
 
 app.get("/insurance_companies", (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query("SELECT DISTINCT company FROM insurances", (err, rows, fields) => {
         if (err) {
             next(err);
@@ -50,8 +50,8 @@ app.get("/insurance_companies", (req, res, next) => {
 });
 
 app.post("/insurance_plans", (req, res, next) => {
-    var { company } = req.body;
-    var context = {};
+    const { company } = req.body;
+    let context = {};
     mysql.pool.query("SELECT planLevel FROM insurances WHERE company=?", [company], (err, rows, fields) => {
         if (err) {
             next(err);
@@ -63,7 +63,7 @@ app.post("/insurance_plans", (req, res, next) => {
 });
 
 app.post("/insurances", (req, res, next) => {
-    var { company, planLevel } = req.body;
+    const { company, planLevel } = req.body;
     mysql.pool.query(insertInsurance, [company, planLevel], (err, result) => {
         if (err) {
             next(err);
@@ -74,8 +74,8 @@ app.post("/insurances", (req, res, next) => {
 });
 
 app.post("/check_insurances", (req, res, next) => {
-    var context = {};
-    var { company, planLevel } = req.body;
+    let context = {};
+    const { company, planLevel } = req.body;
     mysql.pool.query(checkInsurance, [company, planLevel], (err, rows, fields) => {
         if (err) {
             next(err);
@@ -97,10 +97,10 @@ app.delete("/insurances", (req, res, next) => {
 });
 
 app.post("/insurance_search", (req, res, next) => {
-    var context = {};
-    var { company, planLevel } = req.body;
-    var searchInsurance = "SELECT * FROM insurances WHERE ";
-    var insuranceVariables = []
+    let context = {};
+    const { company, planLevel } = req.body;
+    const searchInsurance = "SELECT * FROM insurances WHERE ";
+    let insuranceVariables = []
 
     if (company) {
         let cName = `%${company}%`;
@@ -130,7 +130,7 @@ const restockMedications = "UPDATE medications SET medName=?, quantityAvailable=
 const checkMedications = "SELECT * FROM medications WHERE medName=?";
 
 const getMedicationData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllMedications, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -147,7 +147,7 @@ app.get("/medications", (req, res, next) => {
 
 app.post("/medications", (req, res, next) => {
 
-    var { medName, quantityAvailable } = req.body;
+    const { medName, quantityAvailable } = req.body;
     mysql.pool.query(insertMedications, [medName, quantityAvailable], (err, result) => {
         if (err) {
             next(err);
@@ -158,7 +158,7 @@ app.post("/medications", (req, res, next) => {
 });
 
 app.post("/check_medications", (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(checkMedications, [req.body.medName], (err, rows, fields) => {
         if (err) {
             next(err);
@@ -180,7 +180,7 @@ app.delete("/medications", (req, res, next) => {
 });
 
 app.put("/medications", (req, res, next) => {
-    var { medID, medName, quantityAvailable } = req.body;
+    const { medID, medName, quantityAvailable } = req.body;
     mysql.pool.query(restockMedications, [medName, quantityAvailable, medID], (err, result) => {
         if (err) {
             next(err);
@@ -191,10 +191,10 @@ app.put("/medications", (req, res, next) => {
 });
 
 app.post("/medication_search", (req, res, next) => {
-    var context = {};
-    var { medName, quantityAvailable, comparator } = req.body;
-    var searchMedication = "SELECT * FROM medications WHERE ";
-    var medicationVariables = [];
+    let context = {};
+    const { medName, quantityAvailable, comparator } = req.body;
+    const searchMedication = "SELECT * FROM medications WHERE ";
+    let medicationVariables = [];
 
     if (medName) {
         let mName = `%${medName}%`;
@@ -234,7 +234,7 @@ const updatePatients = "UPDATE patients SET firstName=?, lastName=?, dateOfBirth
 const deletePatients = "DELETE FROM patients WHERE patientRecordNumber=?";
 
 const getPatientData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllPatients, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -246,7 +246,7 @@ const getPatientData = (res) => {
 };
 
 app.get('/patients', (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllPatients, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -258,7 +258,7 @@ app.get('/patients', (req, res, next) => {
 });
 
 app.post("/patients", (req, res, next) => {
-    var { firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
+    const { firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
     mysql.pool.query(insertPatients, [firstName, lastName, dob, gender, diagnosis, company, planLevel], (err, result) => {
         if (err) {
             next(err);
@@ -279,7 +279,7 @@ app.delete("/patients", (req, res, next) => {
 });
 
 app.put("/patients", (req, res, next) => {
-    var { patientRecordNumber, firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
+    const { patientRecordNumber, firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
     mysql.pool.query(updatePatients, [firstName, lastName, dob, gender, diagnosis, company, planLevel, patientRecordNumber], (err, result) => {
         if (err) {
             next(err);
@@ -290,15 +290,15 @@ app.put("/patients", (req, res, next) => {
 });
 
 app.post("/patient_search", (req, res, next) => {
-    var context = {};
-    var { firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
-    var patientSearch = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, insurances.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON patients.insuranceCode = insurances.insuranceCode WHERE (? IS NULL OR `dateOfBirth` = ?) AND (? IS NULL OR `gender` = ?) AND ";
+    let context = {};
+    const { firstName, lastName, dob, gender, diagnosis, company, planLevel } = req.body;
+    const patientSearch = "SELECT patients.patientRecordNumber, patients.firstName, patients.lastName, patients.dateOfBirth, patients.gender, patients.diagnosis, insurances.insuranceCode, insurances.company, insurances.planLevel FROM patients LEFT OUTER JOIN insurances ON patients.insuranceCode = insurances.insuranceCode WHERE (? IS NULL OR `dateOfBirth` = ?) AND (? IS NULL OR `gender` = ?) AND ";
 
     if (gender == 2) {
         gender = null;
     }
 
-    var patientVariables = [dob, dob, gender, gender];
+    const patientVariables = [dob, dob, gender, gender];
 
     if (firstName) {
         let fName = `%${firstName}%`;
@@ -366,7 +366,7 @@ const updateDoctor = "UPDATE doctors SET firstName=?, lastName=?, specialty=? WH
 const deleteDoctor = "DELETE FROM doctors WHERE employeeID=?";
 
 const getDoctorData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllDoctors, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -378,7 +378,7 @@ const getDoctorData = (res) => {
 };
 
 app.get('/allDoctors', (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllDoctors, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -391,10 +391,10 @@ app.get('/allDoctors', (req, res, next) => {
 
 // Filtered search of doctors
 app.post("/doctor_search", (req, res, next) => {
-    var context = {};
-    var { firstName, lastName, specialty } = req.body;
-    var doctorSearchQuery = "SELECT * FROM doctors WHERE ";
-    var doctorSearchVariables = [];
+    let context = {};
+    const { firstName, lastName, specialty } = req.body;
+    const doctorSearchQuery = "SELECT * FROM doctors WHERE ";
+    let doctorSearchVariables = [];
 
     if (firstName != "") {
         let first = `%${firstName}%`
@@ -427,7 +427,7 @@ app.post("/doctor_search", (req, res, next) => {
 
 // Insert a doctor
 app.post("/add_doctor", (req, res, next) => {
-    var { firstName, lastName, specialty } = req.body;
+    const { firstName, lastName, specialty } = req.body;
     mysql.pool.query(insertDoctor, [firstName, lastName, specialty], (err, result) => {
         if (err) {
             next(err);
@@ -448,7 +448,7 @@ app.delete("/delete_doctor", (req, res, next) => {
 });
 
 app.put("/update_doctor", (req, res, next) => {
-    var { employeeID, firstName, lastName, specialty } = req.body;
+    const { employeeID, firstName, lastName, specialty } = req.body;
     mysql.pool.query(updateDoctor, [firstName, lastName, specialty, employeeID], (err, result) => {
         if (err) {
             next(err);
@@ -473,7 +473,7 @@ const searchByPatient = `SELECT doctors.employeeID, doctors.firstName as dfn, do
 const checkIfAssignmentExists = `SELECT * FROM doctor_patient_assignments WHERE employeeID = ? AND patientRecordNumber = ? `
 
 const getAssignmentData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllAssignments, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -486,7 +486,7 @@ const getAssignmentData = (res) => {
 
 // Show all assignments route handler
 app.get('/show_all_assignments', (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllAssignments, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -499,8 +499,8 @@ app.get('/show_all_assignments', (req, res, next) => {
 
 // Show Assignments by doctor employee ID
 app.post("/search_assignments_by_doctor", (req, res, next) => {
-    var context = {};
-    var { employeeID } = req.body;
+    let context = {};
+    const { employeeID } = req.body;
     mysql.pool.query(searchByDoctor, [employeeID], (err, rows, fields) => {
         if (err) {
             next(err);
@@ -513,8 +513,8 @@ app.post("/search_assignments_by_doctor", (req, res, next) => {
 
 // Show Assignments by patient record number
 app.post("/search_assignments_by_patient", (req, res, next) => {
-    var context = {};
-    var { patientRecordNumber } = req.body;
+    let context = {};
+    const { patientRecordNumber } = req.body;
     mysql.pool.query(searchByPatient, [patientRecordNumber], (err, rows, fields) => {
         if (err) {
             next(err);
@@ -527,8 +527,8 @@ app.post("/search_assignments_by_patient", (req, res, next) => {
 
 // Check if a doctor_patient_assignment exists before inserting route handler
 app.post("/check_for_assignment", (req, res, next) => {
-    var context = {};
-    var { employeeID, patientRecordNumber } = req.body;
+    let context = {};
+    const { employeeID, patientRecordNumber } = req.body;
     mysql.pool.query(checkIfAssignmentExists, [employeeID, patientRecordNumber], (err, rows, result) => {
         if (err) {
             next(err);
@@ -541,7 +541,7 @@ app.post("/check_for_assignment", (req, res, next) => {
 
 // Insert a doctor_patient_assignment
 app.post("/add_assignment", (req, res, next) => {
-    var { employeeID, patientRecordNumber } = req.body;
+    const { employeeID, patientRecordNumber } = req.body;
     mysql.pool.query(insertAssignment, [employeeID, patientRecordNumber], (err, result) => {
         if (err) {
             next(err);
@@ -577,7 +577,7 @@ const getMedicationQuantityAvailable = `SELECT quantityAvailable FROM medication
 
 
 const getPrescriptionData = (res) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllPrescriptions, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -590,7 +590,7 @@ const getPrescriptionData = (res) => {
 
 // Show all prescriptions route handler
 app.get('/show_all_prescriptions', (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query(getAllPrescriptions, (err, rows, fields) => {
         if (err) {
             next(err);
@@ -603,8 +603,8 @@ app.get('/show_all_prescriptions', (req, res, next) => {
 
 // Check if a prescription exists before inserting route handler
 app.post("/get_medication_quantity_available", (req, res, next) => {
-    var context = {};
-    var { employeeID, patientRecordNumber, medID } = req.body;
+    let context = {};
+    const { employeeID, patientRecordNumber, medID } = req.body;
     mysql.pool.query(getMedicationQuantityAvailable, [medID], (err, rows, result) => {
         if (err) {
             next(err);
@@ -617,8 +617,8 @@ app.post("/get_medication_quantity_available", (req, res, next) => {
 
 // Check if a prescription exists before inserting route handler
 app.post("/check_for_prescription", (req, res, next) => {
-    var context = {};
-    var { employeeID, patientRecordNumber, medID } = req.body;
+    let context = {};
+    const { employeeID, patientRecordNumber, medID } = req.body;
     mysql.pool.query(checkIfPrescriptionExists, [employeeID, patientRecordNumber, medID], (err, rows, result) => {
         if (err) {
             next(err);
@@ -631,7 +631,7 @@ app.post("/check_for_prescription", (req, res, next) => {
 
 // Insert a new prescription
 app.post("/add_prescription", (req, res, next) => {
-    var { employeeID, patientRecordNumber, medID, quantityOfTablets } = req.body;
+    const { employeeID, patientRecordNumber, medID, quantityOfTablets } = req.body;
     mysql.pool.query(insertPrescription, [employeeID, medID, patientRecordNumber, quantityOfTablets], (err, result) => {
         if (err) {
             next(err);
@@ -652,13 +652,13 @@ app.post("/add_prescription", (req, res, next) => {
 
 // Search for a prescription
 app.post("/search_prescription", (req, res, next) => {
-    var context = {};
-    var { employeeID, patientRecordNumber, medID } = req.body;
-    var searchPrescriptionQuery = `SELECT prescriptions.prescriptionID, doctors.employeeID, doctors.firstName as dfn, doctors.lastName as dln,
+    let context = {};
+    const { employeeID, patientRecordNumber, medID } = req.body;
+    const searchPrescriptionQuery = `SELECT prescriptions.prescriptionID, doctors.employeeID, doctors.firstName as dfn, doctors.lastName as dln,
                             medications.medID, medications.medName, prescriptions.quantityOfTablets, patients.patientRecordNumber, patients.firstName as pfn,
                             patients.lastName as pln FROM prescriptions JOIN doctors ON prescriptions.employeeID = doctors.employeeID JOIN medications ON prescriptions.medID = medications.medID
                             JOIN patients ON prescriptions.patientRecordNumber = patients.patientRecordNumber WHERE `;
-    var prescriptionSearchVariable = [];
+    let prescriptionSearchVariable = [];
 
     if (employeeID) {
         prescriptionSearchVariable.push(employeeID)
@@ -690,7 +690,7 @@ app.post("/search_prescription", (req, res, next) => {
 
 // Route handlers to fill dropdown menus
 app.get("/get_doctor_names", (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query("SELECT doctors.employeeID, doctors.firstName, doctors.lastName FROM doctors", (err, rows, fields) => {
         if (err) {
             next(err);
@@ -702,7 +702,7 @@ app.get("/get_doctor_names", (req, res, next) => {
 });
 
 app.get("/get_patient_names", (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query("SELECT patients.patientRecordNumber, patients.firstName, patients.lastName FROM patients", (err, rows, fields) => {
         if (err) {
             next(err);
@@ -714,7 +714,7 @@ app.get("/get_patient_names", (req, res, next) => {
 });
 
 app.get("/get_medication_names", (req, res, next) => {
-    var context = {};
+    let context = {};
     mysql.pool.query("SELECT medications.medID, medications.medName FROM medications", (err, rows, fields) => {
         if (err) {
             next(err);
